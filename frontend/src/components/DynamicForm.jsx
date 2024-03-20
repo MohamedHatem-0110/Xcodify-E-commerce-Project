@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TextInput from "../components/TextInput";
 import { useNavigate } from "react-router-dom";
 
-const DynamicForm = () => {
+const DynamicForm = ({ pageName, onSubmit, redirectTo }) => {
   const navigate = useNavigate();
   const [disableSubmitButtom, setDisableSubmitButtom] = useState(true);
 
@@ -39,9 +39,9 @@ const DynamicForm = () => {
       console.log(updatedIsEmptyArray);
     } else {
       // BACKEND
-      // onSubmit(formData);
-      console.log("Register");
-      navigate("/");
+      onSubmit(formData);
+
+      navigate(redirectTo);
     }
   };
 
@@ -57,7 +57,7 @@ const DynamicForm = () => {
       className="
     max-w-lg mx-auto p-6 bg-gray-100 rounded-md shadow-md shadow-gray-300"
     >
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+      <h2 className="text-2xl font-bold mb-4">{pageName}</h2>
       <form onSubmit={handleSubmit}>
         <TextInput
           name="firstName"
@@ -91,7 +91,7 @@ const DynamicForm = () => {
           type="submit"
           className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none"
         >
-          Register
+          {pageName}
         </button>
       </form>
     </div>

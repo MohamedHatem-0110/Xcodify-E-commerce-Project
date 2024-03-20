@@ -3,18 +3,20 @@ import Navbar from "../components/Navbar";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import RegisterPage from "./RegisterPage";
+import Breadcrumb from "../components/Breadcrumb";
+import LoginPage from "./LoginPage";
 
 const App = () => {
   return (
-    <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/register" element={<RegisterPage />} />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Navbar />
+      <Breadcrumb />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </Router>
   );
 };
 

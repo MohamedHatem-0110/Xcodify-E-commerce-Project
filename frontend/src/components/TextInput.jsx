@@ -25,7 +25,9 @@ const TextInput = ({ name, label, value, onChange, isFieldEmpty }) => {
         className={classNames}
         onChange={onChange}
       />
-      <p class="text-red-500 text-xs italic">Please Fill in this Field</p>
+      {isFieldEmpty && (
+        <p class="text-red-500 text-xs italic">Please Fill in this Field</p>
+      )}
     </div>
   );
 };
