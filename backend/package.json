@@ -1,16 +1,30 @@
 {
-  "name": "backend",
+  "name": "ecommerce-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend infrastructure for E-commerce website",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohamedHatem-0110/Xcodify-E-commerce-Project.git"
+  },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MohamedHatem-0110/Xcodify-E-commerce-Project/issues"
+  },
+  "homepage": "https://github.com/MohamedHatem-0110/Xcodify-E-commerce-Project#readme",
   "dependencies": {
-    "express": "^4.18.3"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.2",
+    "validate-structure": "^2.0.0"
   }
 }
