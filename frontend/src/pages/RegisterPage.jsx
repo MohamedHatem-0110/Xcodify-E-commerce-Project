@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
 import TextInput from "../components/TextInput";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const DynamicForm = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
+
+  const [error, setError] = useState(false); // State to track error status
+
   const [disableSubmitButtom, setDisableSubmitButtom] = useState(true);
 
   const [isEmptyArray, setIsEmptyArray] = useState([
@@ -12,6 +20,12 @@ const DynamicForm = () => {
     false,
     false,
   ]);
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/");
+    }
+  }, []);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -27,7 +41,7 @@ const DynamicForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData); // You can handle form submission logic here
     if (disableSubmitButtom) {
@@ -41,7 +55,23 @@ const DynamicForm = () => {
       // BACKEND
       // onSubmit(formData);
       console.log("Register");
-      navigate("/");
+
+      axios
+        .post("/api/auth/register", formData)
+        .then((response) => {
+          console.log(response.data);
+          if (Object.keys(response.data).length === 0) {
+            toast.error("Email is already used.");
+          } else {
+            toast.success("Register Successful!");
+            console.log("Register Successful!");
+            navigate("/login");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+      // navigate("/");
     }
   };
 
@@ -86,6 +116,7 @@ const DynamicForm = () => {
           value={formData.password}
           onChange={handleChange}
           isFieldEmpty={isEmptyArray[3]}
+          password
         />
         <button
           type="submit"
@@ -98,4 +129,4 @@ const DynamicForm = () => {
   );
 };
 
-export default DynamicForm;
+export default RegisterPage;

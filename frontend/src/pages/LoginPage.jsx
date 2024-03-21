@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
 import TextInput from "../components/TextInput";
+
 import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
+
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  const { user } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (user !== null) {
+      navigate("/");
+    }
+  }, []);
+
   const [disableSubmitButtom, setDisableSubmitButtom] = useState(true);
 
   const [isEmptyArray, setIsEmptyArray] = useState([false, false]);
@@ -12,6 +28,8 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // allFieldsFilled is a boolean that tells whether the fields are filled or not
@@ -37,13 +55,28 @@ const LoginPage = () => {
         (value) => value === ""
       );
       setIsEmptyArray(updatedIsEmptyArray);
-      console.log(updatedIsEmptyArray);
+      // console.log(updatedIsEmptyArray);
     } else {
       // BACKEND
       // create a function that takes the formData and give it to the backend (onSubmit(formData))
-      console.log("Login");
-
-      navigate("/");
+      console.log("Logging In");
+      axios
+        .post("/api/auth/login", formData)
+        .then((response) => {
+          if (Object.keys(response.data).length === 0) {
+            toast.error("Wrong Credentials", {
+              toastStyle: { background: "red", text: "white" },
+            });
+          } else {
+            toast.success("Login Successful!");
+            console.log("Login Successful!");
+            dispatch(login(response.data));
+            navigate("/");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
     }
   };
 
@@ -67,6 +100,7 @@ const LoginPage = () => {
           value={formData.password}
           onChange={handleChange}
           isFieldEmpty={isEmptyArray[1]}
+          password
         />
         <button
           type="submit"

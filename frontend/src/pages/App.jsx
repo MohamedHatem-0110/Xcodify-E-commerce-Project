@@ -5,7 +5,12 @@ import Home from "./Home";
 import RegisterPage from "./RegisterPage";
 import Breadcrumb from "../components/Breadcrumb";
 import LoginPage from "./LoginPage";
+import axios from "axios";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+axios.defaults.baseURL = "http://localhost:3000";
 const App = () => {
   return (
     <Router>
@@ -16,6 +21,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+      <ToastContainer theme="colored" pauseOnHover={false} autoClose={3000} />
     </Router>
   );
 };

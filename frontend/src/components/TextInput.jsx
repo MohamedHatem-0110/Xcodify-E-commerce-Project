@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 
-const TextInput = ({ name, label, value, onChange, isFieldEmpty }) => {
+const TextInput = ({
+  name,
+  label,
+  value,
+  onChange,
+  isFieldEmpty,
+  password,
+}) => {
   let classNames =
     "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700";
 
@@ -18,7 +25,7 @@ const TextInput = ({ name, label, value, onChange, isFieldEmpty }) => {
         {label}
       </label>
       <input
-        type="text"
+        type={password ? "password" : "text"}
         id={name}
         name={name}
         value={value}

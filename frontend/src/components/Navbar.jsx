@@ -1,17 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/actions";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.user);
 
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  useEffect(() => {
+    if (user === null) {
+      // Perform additional actions when user is null
+      console.log("User is null");
+    }
+    // console.log(user);
+  }, [user]); // Trigger effect when user state changes
+
   return (
     <>
-      <nav className="bg-gray-800 py-2 px-10">
-        <div className="flex justify-between items-center gap-20">
+      <nav className="bg-gray-800 py-2 px-10 min-w-fit">
+        <div className="flex justify-between items-center sm:gap-20">
           {/* Logo */}
           <div
             className="text-white text-3xl font-bold logo italic cursor-pointer"
@@ -21,13 +36,13 @@ const Navbar = () => {
           </div>
 
           {/* Search bar */}
-          <div className="flex items-center w-full">
+          <div className="flex justify-center w-full">
             <input
               type="text"
               placeholder="Search..."
-              className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full"
+              className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full hidden sm:block"
             />
-            <button className="bg-gray-700 text-white px-4 py-2 rounded-r-lg">
+            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg sm:rounded-l-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -49,7 +64,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4 text-white">
             <div className="relative flex items-center">
               <button
-                className="text-white focus:outline-none"
+                className="text-white focus:outline-none flex"
                 onClick={handleMenuToggle}
               >
                 <svg
@@ -66,9 +81,15 @@ const Navbar = () => {
                     d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                   />
                 </svg>
+                {user !== null && (
+                  <div className="w-full whitespace-nowrap">
+                    Hi, {user.firstName}
+                  </div>
+                )}
               </button>
+
               {/* User menu */}
-              {isMenuOpen && (
+              {isMenuOpen && user === null && (
                 <div className="absolute top-10 -left-10 bg-gray-800 text-white rounded-md shadow-lg flex-col">
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
@@ -87,6 +108,37 @@ const Navbar = () => {
                     }}
                   >
                     Register
+                  </button>
+                </div>
+              )}
+
+              {isMenuOpen && user !== null && (
+                <div className="absolute top-10 -left-10 bg-gray-800 text-white rounded-md shadow-lg flex-col">
+                  <button
+                    className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    View Profile
+                  </button>
+                  <button
+                    className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    View Orders
+                  </button>
+                  <button
+                    className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      dispatch(logout());
+                      navigate("/");
+                    }}
+                  >
+                    Logout
                   </button>
                 </div>
               )}
