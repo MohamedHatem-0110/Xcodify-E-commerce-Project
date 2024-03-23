@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-const { generateObjectFromSchemaPaths } = require('../util/generalUtil');
+const { Schema, model } = require("mongoose");
+const { generateObjectFromSchemaPaths } = require("../util/generalUtil");
 const userSchema = new Schema({
   firstName: {
     type: String,
@@ -25,8 +25,8 @@ const userSchema = new Schema({
   phoneNumber: String,
   role: {
     type: String,
-    enum: ['customer', 'seller', 'admin'],
-    default: 'customer',
+    enum: ["customer", "seller", "admin"],
+    default: "customer",
   },
   createdAt: {
     type: Date,
@@ -36,6 +36,5 @@ const userSchema = new Schema({
 });
 
 module.exports = {
-  userModel: model('Users', userSchema),
-  userObject: generateObjectFromSchemaPaths(userSchema.paths),
+  userModel: model("Users", userSchema),
 };

@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-const { generateObjectFromSchemaPaths } = require('../util/generalUtil');
+const { Schema, model } = require("mongoose");
+const { generateObjectFromSchemaPaths } = require("../util/generalUtil");
 
 const orderSchema = new Schema({
   user_id: {
@@ -83,6 +83,5 @@ const orderSchema = new Schema({
 });
 
 module.exports = {
-  orderModel: model('Orders', orderSchema),
-  orderObject: generateObjectFromSchemaPaths(orderSchema.paths),
+  orderModel: model("Orders", orderSchema),
 };

@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-const { generateObjectFromSchemaPaths } = require('../util/generalUtil');
+const { Schema, model } = require("mongoose");
+const { generateObjectFromSchemaPaths } = require("../util/generalUtil");
 const categorySchema = new Schema({
   name: {
     type: String,
@@ -16,6 +16,5 @@ const categorySchema = new Schema({
 });
 
 module.exports = {
-  categoryModel: model('Categories', categorySchema),
-  categoryObject: generateObjectFromSchemaPaths(categorySchema.paths),
+  categoryModel: model("Categories", categorySchema),
 };
