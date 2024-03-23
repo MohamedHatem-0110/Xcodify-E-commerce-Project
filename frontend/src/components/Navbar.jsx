@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray-800 py-2 px-10 min-w-fit">
+      <nav className="bg-gray-800 py-2 px-10 w-full z-10 fixed top-0">
         <div className="flex justify-between items-center sm:gap-20">
           {/* Logo */}
           <div
@@ -90,7 +90,7 @@ const Navbar = () => {
 
               {/* User menu */}
               {isMenuOpen && user === null && (
-                <div className="absolute top-10 -left-10 bg-gray-800 text-white rounded-md shadow-lg flex-col">
+                <div className="absolute top-10 -left-10 bg-gray-800 text-white rounded-md shadow-lg flex-col z-10">
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
