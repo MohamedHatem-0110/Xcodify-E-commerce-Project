@@ -9,23 +9,24 @@ function Breadcrumb() {
   const finalPath = paths[paths.length - 1];
 
   return (
-    <div className="mx-10 my-5">
-      {paths.length > 0 && (
-        <Link to={`/`} className="uppercase">
-          HOME{" > "}
+    paths.length > 0 && (
+      <div className="mx-10 mt-20">
+        <Link to={"/"} className="uppercase">
+          HOME {" > "}
         </Link>
-      )}
-      {paths.map((path, index) => (
-        <React.Fragment key={index}>
-          {path !== "/" && (
-            <Link to={`/${path}`} className="uppercase">
-              {path}
-            </Link>
-          )}
-          {index < paths.length - 1 && " > "}
-        </React.Fragment>
-      ))}
-    </div>
+
+        {paths.map((path, index) => (
+          <React.Fragment key={index}>
+            {path !== "/" && (
+              <Link to={`/${path}`} className="uppercase">
+                {path}
+              </Link>
+            )}
+            {index < paths.length - 1 && " > "}
+          </React.Fragment>
+        ))}
+      </div>
+    )
   );
 }
 

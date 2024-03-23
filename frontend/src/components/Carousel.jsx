@@ -25,7 +25,7 @@ const Carousel = ({ images }) => {
   }, [index]); // Trigger effect when index changes
 
   return (
-    <div className=" mx-auto relative w-full h-full">
+    <div className=" mx-auto relative w-full">
       <div className="overflow-hidden">
         <div className="flex h-full">
           {images.map((image, idx) => (

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import fetchProducts from "../functions/productFunctions";
 import Carousel from "../components/Carousel";
+import Section from "../components/Section";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [products, setProducts] = useState(null);
@@ -11,13 +13,21 @@ const Home = () => {
     "https://random.imagecdn.app/1080/300",
     "https://random.imagecdn.app/1080/300",
     "https://random.imagecdn.app/1080/300",
-    // Add more image URLs as needed
   ];
   useEffect(() => {
     fetchProducts(setProducts);
   }, []);
 
-  return <div className="mx-10">{images && <Carousel images={images} />}</div>;
+  return (
+    <div>
+      <div className="mt-20 flex-col mx-10">
+        {images && <Carousel images={images} />}
+        <Section title={"Popular"} />
+        <Section title={"Category"} />
+      </div>
+      <Footer />
+    </div>
+  );
 };
 
 export default Home;
