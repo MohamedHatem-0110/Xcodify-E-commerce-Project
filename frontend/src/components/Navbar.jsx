@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/actions";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/actions';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,7 +18,7 @@ const Navbar = () => {
   useEffect(() => {
     if (user === null) {
       // Perform additional actions when user is null
-      console.log("User is null");
+      console.log('User is null');
     }
     // console.log(user);
   }, [user]); // Trigger effect when user state changes
@@ -30,7 +30,7 @@ const Navbar = () => {
           {/* Logo */}
           <div
             className="text-white text-3xl font-bold logo italic cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
           >
             XSHOP
           </div>
@@ -94,7 +94,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate("/login");
+                      navigate('/login');
                       setIsMenuOpen(false);
                     }}
                   >
@@ -103,7 +103,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate("/register");
+                      navigate('/register');
                       setIsMenuOpen(false);
                     }}
                   >
@@ -135,7 +135,7 @@ const Navbar = () => {
                     onClick={() => {
                       setIsMenuOpen(false);
                       dispatch(logout());
-                      navigate("/");
+                      navigate('/');
                     }}
                   >
                     Logout

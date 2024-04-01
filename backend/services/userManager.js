@@ -8,7 +8,7 @@ const {
 
 async function emailExists(email) {
   const users = await getUserBy('email', email);
-  return users && true;
+  return users;
 }
 
 async function getUserById(id) {
@@ -17,20 +17,18 @@ async function getUserById(id) {
 }
 
 async function getUserBy(prop, value) {
-  let filter = {};
-  filter[prop] = value;
-  const user = await userModel.findOne(filter);
+  const user = await userModel.findOne({ [prop]: value });
   return user;
 }
 
 async function loginUser(userEmail, password) {
   const result = await emailExists(userEmail);
-  if (!result) return new Error('You are not registered.');
+  if (!result) throw new Error('You are not registered.');
 
   const user = await getUserBy('email', userEmail);
   const PasswordMatched = await comparePassword(password, user.password);
   if (!PasswordMatched) {
-    return new Error('Invalid username or password');
+    throw new Error('Invalid username or password');
   }
 
   const { email, id } = user;
@@ -39,13 +37,14 @@ async function loginUser(userEmail, password) {
     id,
   });
   await user.save();
+  user.password = undefined;
   return user;
 }
 
 async function registerUser(userEmail, password, firstName, lastName) {
-  if (!isValidEmail(userEmail)) return new Error('Invalid email format.');
+  if (!isValidEmail(userEmail)) throw new Error('Invalid email format.');
   const emailExist = await emailExists(userEmail);
-  if (emailExist) return new Error('You are already registered.');
+  if (emailExist) throw new Error('You are already registered.');
   const hashedPassword = await hashPassword(password);
   const user = new userModel({
     email: userEmail,
@@ -60,6 +59,7 @@ async function registerUser(userEmail, password, firstName, lastName) {
   });
   user.authToken = sessionToken;
   await user.save();
+  user.password = undefined;
   return user;
 }
 

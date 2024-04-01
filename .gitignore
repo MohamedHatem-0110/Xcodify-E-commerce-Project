@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 # dependencies
-/backend/node_modules
+*/node_modules
 */.pnp
 */.pnp.js
 .yarn/*
@@ -10,12 +10,18 @@
 
 # production
 client/build
-
+client/dist
+client/dist-ssr
 # misc
 */.DS_Store
 */*.pem
 */THUMBS_DB
 */thumbs.db
+*/*.suo
+*/*.ntvs*
+*/*.njsproj
+*/*.sln
+*/*.sw?
 
 # debug
 */npm-debug.log*

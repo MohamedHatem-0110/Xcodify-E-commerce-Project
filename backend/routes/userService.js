@@ -8,11 +8,10 @@ userRouter.post('/login', async (req, res, next) => {
     return res.status(500).send('Invalid email or password');
   try {
     const userDetails = await loginUser(email, password);
-    userDetails.password = undefined;
     res.status(200).send(userDetails);
   } catch (e) {
-    console.log(e);
-    res.status(500).send(e.message);
+    console.log('[ERROR]', e);
+    res.status(500).send({ error: e.message });
   }
 });
 
@@ -29,11 +28,10 @@ userRouter.post('/register', async (req, res, next) => {
       firstName,
       lastName
     );
-    userDetails.password = undefined;
     res.status(200).send(userDetails);
   } catch (e) {
-    console.log(e);
-    return res.status(500).send(e.message);
+    console.log('[ERROR]', e);
+    return res.status(500).send({ error: e.message });
   }
 });
 console.log('[ROUTER] Loaded api/auth route');

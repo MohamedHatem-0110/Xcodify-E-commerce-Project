@@ -1,13 +1,12 @@
-const { Router } = require("express");
-const { productModel } = require("../models/product");
-
-const multer = require("multer");
+const { Router } = require('express');
+const { productModel } = require('../models/product');
+const { Types } = require('mongoose');
+const multer = require('multer');
 
 const productRouter = Router();
-
 const upload = multer(); // Define multer middleware
 
-productRouter.post("/", upload.single("image"), async (req, res) => {
+productRouter.post('/', upload.single('image'), async (req, res) => {
   try {
     const {
       name,
@@ -25,7 +24,7 @@ productRouter.post("/", upload.single("image"), async (req, res) => {
       contentType: req.file.mimetype, // Content type of the image
     };
 
-    image.dataString = Buffer.from(image.data).toString("base64");
+    image.dataString = Buffer.from(image.data).toString('base64');
 
     const newProduct = new productModel({
       name,
@@ -42,52 +41,52 @@ productRouter.post("/", upload.single("image"), async (req, res) => {
 
     await newProduct.save();
 
-    res.status(201).send("Product created");
+    res.status(201).send('Product created');
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to add product");
+    res.status(500).send('Failed to add product');
   }
 });
 
-productRouter.get("/", async (req, res) => {
+productRouter.get('/', async (req, res) => {
   try {
     const products = await productModel.find({});
     res.status(200).send(products);
   } catch (error) {
-    res.status(500).send("Failed to get products");
+    res.status(500).send('Failed to get products');
   }
 });
 
-productRouter.get("/:id", async (req, res) => {
+productRouter.get('/:id', async (req, res) => {
   try {
-    const product = await productModel.findById(req.params.id);
-
+    const productId = new Types.ObjectId(req.params.id);
+    const product = await productModel.findById(productId);
     // Send the product data including the image data
     res.status(200).send(product);
   } catch (error) {
     console.error(error);
-    res.status(404).send("Product Not Found");
+    res.status(404).send('Product Not Found');
   }
 });
 
-productRouter.delete("/", async (req, res) => {
+productRouter.delete('/', async (req, res) => {
   try {
     await productModel.deleteMany({});
-    res.status(200).send("All Products Deleted");
+    res.status(200).send('All Products Deleted');
   } catch (error) {
-    res.status(500).send("Failed to deleted products");
+    res.status(500).send('Failed to deleted products');
   }
 });
 
-productRouter.put("/:id", async (req, res) => {
+productRouter.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await productModel.findByIdAndUpdate({ _id: id }, { ...req.body });
-    res.status(200).send("Product Updated");
+    res.status(200).send('Product Updated');
   } catch (error) {
-    res.status(500).send("Failed to update product");
+    res.status(500).send('Failed to update product');
   }
 });
 
-console.log("[ROUTER] Loaded api/products route");
+console.log('[ROUTER] Loaded api/products route');
 module.exports = productRouter;
