@@ -70,6 +70,9 @@ const RegisterPage = () => {
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
+          toast.error("Internal Server Error", {
+            toastStyle: { background: "red", text: "white" },
+          });
         });
       // navigate("/");
     }
