@@ -10,8 +10,6 @@ const RegisterPage = () => {
 
   const { user } = useSelector((state) => state.user);
 
-  const [error, setError] = useState(false); // State to track error status
-
   const [disableSubmitButtom, setDisableSubmitButtom] = useState(true);
 
   const [isEmptyArray, setIsEmptyArray] = useState([
@@ -54,7 +52,7 @@ const RegisterPage = () => {
     } else {
       // BACKEND
       // onSubmit(formData);
-      console.log("Register");
+      console.log("Registering");
 
       axios
         .post("/api/auth/register", formData)

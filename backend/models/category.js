@@ -1,13 +1,17 @@
 const { Schema, model } = require("mongoose");
 const { generateObjectFromSchemaPaths } = require("../util/generalUtil");
+
 const categorySchema = new Schema({
   name: {
     type: String,
     required: true,
   },
   image: {
-    type: String,
-    required: true,
+    data: Buffer,
+    contentType: String,
+    dataString: {
+      type: String,
+    },
   },
   productCount: {
     type: Number,

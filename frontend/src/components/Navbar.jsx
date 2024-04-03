@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/actions';
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../redux/actions";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const [searchWord, setSearchWord] = useState(null);
+
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const menuRef = useRef(null); // Ref for the menu element
 
   const { user } = useSelector((state) => state.user);
 
@@ -18,10 +22,27 @@ const Navbar = () => {
   useEffect(() => {
     if (user === null) {
       // Perform additional actions when user is null
-      console.log('User is null');
+      console.log("User is null");
     }
     // console.log(user);
+
+    // Add event listener to detect clicks outside of the menu
+    document.addEventListener("click", handleClickOutside);
+
+    // Remove event listener when component unmounts
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, [user]); // Trigger effect when user state changes
+
+  const handleClickOutside = (event) => {
+    console.log("here1");
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      // Click occurred outside of the menu, so hide the menu
+      console.log("here");
+      setIsMenuOpen(false);
+    }
+  };
 
   return (
     <>
@@ -30,7 +51,7 @@ const Navbar = () => {
           {/* Logo */}
           <div
             className="text-white text-3xl font-bold logo italic cursor-pointer"
-            onClick={() => navigate('/')}
+            onClick={() => navigate("/")}
           >
             XSHOP
           </div>
@@ -41,6 +62,7 @@ const Navbar = () => {
               type="text"
               placeholder="Search..."
               className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full hidden sm:block"
+              onChange={(e) => setSearchWord(e.target.value)}
             />
             <button className="bg-gray-700 text-white px-4 py-2 rounded-lg sm:rounded-l-none">
               <svg
@@ -50,6 +72,9 @@ const Navbar = () => {
                 strokeWidth="2"
                 stroke="currentColor"
                 className="w-6 h-6"
+                onClick={() =>
+                  searchWord && navigate("/products/search/" + searchWord)
+                }
               >
                 <path
                   strokeLinecap="round"
@@ -66,6 +91,7 @@ const Navbar = () => {
               <button
                 className="text-white focus:outline-none flex"
                 onClick={handleMenuToggle}
+                ref={menuRef}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,7 +120,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate('/login');
+                      navigate("/login");
                       setIsMenuOpen(false);
                     }}
                   >
@@ -103,7 +129,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate('/register');
+                      navigate("/register");
                       setIsMenuOpen(false);
                     }}
                   >
@@ -135,7 +161,7 @@ const Navbar = () => {
                     onClick={() => {
                       setIsMenuOpen(false);
                       dispatch(logout());
-                      navigate('/');
+                      navigate("/");
                     }}
                   >
                     Logout
