@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import ProductCard from "../components/ProductCard";
-import LoadingSpinner from "../components/LoadingSpinner";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProductsPage = () => {
   const { word } = useParams();
@@ -14,15 +14,15 @@ const ProductsPage = () => {
       try {
         let response;
         if (word) {
-          response = await axios.get("api/products/search/" + word);
+          response = await axios.get('api/products/search/' + word);
         } else {
-          response = await axios.get("api/products/");
+          response = await axios.get('api/products/');
         }
 
         setProducts(response.data);
         setLoading(false); // Set loading to false when data is fetched
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       }
     };
@@ -46,8 +46,9 @@ const ProductsPage = () => {
                 price={product.price}
                 productName={product.name}
                 discountPrice={product.discountPrice}
-                productImage={product.image}
+                productImage={'data:image/webp;base64,' + product.image}
                 productId={product._id}
+                productDesc={product.desc}
               />
             ))}
         </div>

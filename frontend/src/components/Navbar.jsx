@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/actions";
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/actions';
+import CartIcon from './CartIcon';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,24 +23,24 @@ const Navbar = () => {
   useEffect(() => {
     if (user === null) {
       // Perform additional actions when user is null
-      console.log("User is null");
+      console.log('User is null');
     }
     // console.log(user);
 
     // Add event listener to detect clicks outside of the menu
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
     // Remove event listener when component unmounts
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, [user]); // Trigger effect when user state changes
 
   const handleClickOutside = (event) => {
-    console.log("here1");
+    console.log('here1');
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       // Click occurred outside of the menu, so hide the menu
-      console.log("here");
+      console.log('here');
       setIsMenuOpen(false);
     }
   };
@@ -51,7 +52,7 @@ const Navbar = () => {
           {/* Logo */}
           <div
             className="text-white text-3xl font-bold logo italic cursor-pointer"
-            onClick={() => navigate("/")}
+            onClick={() => navigate('/')}
           >
             XSHOP
           </div>
@@ -73,7 +74,7 @@ const Navbar = () => {
                 stroke="currentColor"
                 className="w-6 h-6"
                 onClick={() =>
-                  searchWord && navigate("/products/search/" + searchWord)
+                  searchWord && navigate('/products/search/' + searchWord)
                 }
               >
                 <path
@@ -120,7 +121,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate("/login");
+                      navigate('/login');
                       setIsMenuOpen(false);
                     }}
                   >
@@ -129,7 +130,7 @@ const Navbar = () => {
                   <button
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
-                      navigate("/register");
+                      navigate('/register');
                       setIsMenuOpen(false);
                     }}
                   >
@@ -161,7 +162,7 @@ const Navbar = () => {
                     onClick={() => {
                       setIsMenuOpen(false);
                       dispatch(logout());
-                      navigate("/");
+                      navigate('/');
                     }}
                   >
                     Logout
@@ -169,21 +170,9 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-              />
-            </svg>
+            <div onClick={() => navigate('/cart')}>
+              <CartIcon />
+            </div>
           </div>
         </div>
       </nav>

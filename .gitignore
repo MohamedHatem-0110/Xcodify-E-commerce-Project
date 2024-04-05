@@ -40,4 +40,5 @@ backend/.env.production.local
 .prettierrc
 
 # vscode settings
-*/.vscode
+.vscode/
+*/.vscode/
