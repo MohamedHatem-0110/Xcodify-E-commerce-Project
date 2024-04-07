@@ -143,7 +143,7 @@ const ProductsPage = () => {
                 price={product.price}
                 productName={product.name}
                 discountPrice={product.discountPrice}
-                productImage={"data:image/webp;base64," + product.image}
+                productImage={product.image}
                 productId={product._id}
                 productDesc={product.desc}
               />

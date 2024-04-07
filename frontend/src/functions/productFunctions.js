@@ -10,4 +10,8 @@ const fetchProducts = async (setProducts, setError) => {
   }
 };
 
-export default fetchProducts;
+const getImage = (productImage) => {
+  return "data:image/webp;base64," + productImage.dataString;
+};
+
+export { fetchProducts, getImage };
