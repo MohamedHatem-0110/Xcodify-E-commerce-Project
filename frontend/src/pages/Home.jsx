@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="mt-20 flex-col mx-10">
+      <div className="mt-20 flex-col">
         {images && <Carousel images={images} />}
         <Section title={"Popular"} />
         <Section title={"Category"} />

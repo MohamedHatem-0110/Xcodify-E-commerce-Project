@@ -1,15 +1,15 @@
 // reducers.js
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 function userReducer(state = { user: null }, action) {
-  console.log('[USER_REDUCER] ' + action.payload);
+  console.log("[USER_REDUCER] " + action.payload);
   switch (action.type) {
-    case 'LOGIN':
+    case "LOGIN":
       return {
         ...state,
         user: action.payload,
       };
-    case 'LOGOUT':
+    case "LOGOUT":
       return {
         ...state,
         user: null,
@@ -33,9 +33,9 @@ function cartReducer(
   state = { cart: [], totalPrice: 0, totalDiscount: 0 },
   action
 ) {
-  console.log('[CART_REDUCER] ', action.payload);
+  console.log("[CART_REDUCER] ", action.payload);
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case "ADD_TO_CART":
       const existingItemIndex = state.cart.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -46,20 +46,22 @@ function cartReducer(
         return {
           ...state,
           cart: updatedCart,
+          totalPrice: state.totalPrice + updatedCart[existingItemIndex].price,
         };
       } else {
         // If item doesn't exist in the cart, add it
         return {
           ...state,
           cart: [...state.cart, action.payload],
+          totalPrice: state.totalPrice + action.payload.price,
         };
       }
-    case 'REMOVE_FROM_CART':
+    case "REMOVE_FROM_CART":
       return {
         ...state,
         cart: state.cart.filter((item) => item.id !== action.payload),
       };
-    case 'UPDATE_QUANTITY':
+    case "UPDATE_QUANTITY":
       return {
         ...state,
         cart: state.cart.map((item) => {
@@ -69,7 +71,7 @@ function cartReducer(
           return item;
         }),
       };
-    case 'LOAD_CART':
+    case "LOAD_CART":
       return {
         ...state,
         cart: action.payload,
@@ -82,10 +84,19 @@ function cartReducer(
 const calculateTotals = (cart) => {
   let totalPrice = 0;
   let totalDiscount = 0;
-  for (const item of cart) {
-    totalPrice += item.quantity * (item.price - item.discount);
-    totalDiscount += item.quantity * item.discount;
+
+  // Access the 'cart' property of the 'cart' object
+  const items = cart.cart;
+
+  for (const item of items) {
+    if (item.discount) {
+      totalPrice += item.quantity * (item.price - item.discount);
+    } else {
+      totalPrice += item.quantity * item.price;
+    }
+    if (item.discount) totalDiscount += item.quantity * item.discount;
   }
+
   return { totalPrice, totalDiscount };
 };
 
@@ -97,7 +108,8 @@ const rootReducer = combineReducers({
 export default function (state, action) {
   const newState = rootReducer(state, action);
   const { cart } = newState;
-  const { totalPrice, totalDiscount } = calculateTotals(newState.cart.cart);
+  const { totalPrice, totalDiscount } = calculateTotals(cart); // Remove the extra .cart
+  console.log(totalPrice);
   return {
     ...newState,
     cart: {

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import ProductCard from '../components/ProductCard';
-import { useSelector } from 'react-redux';
-import CartProduct from '../components/CartProduct';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import ProductCard from "../components/ProductCard";
+import { useSelector } from "react-redux";
+import CartProduct from "../components/CartProduct";
+import { useNavigate } from "react-router-dom";
 const CartPage = () => {
   const { cart, totalPrice, totalDiscount } = useSelector(
     (state) => state.cart
@@ -16,18 +16,18 @@ const CartPage = () => {
         {cart.length == 0 ? (
           <h1 className="text-xl">Nothing to see here!</h1>
         ) : (
-          <div className="flex gap-2 w-100%">
-            <div className="w-1/2 flex flex-col gap-2 border rounded-sm p-2">
+          <div className="flex gap-2 justify-between">
+            <div className="flex flex-col gap-2 border border-gray-400 rounded-sm p-2">
               {cart.map((product) => {
                 return (
                   <>
                     <CartProduct
-                      key={product.id + ' cart'}
+                      key={product.id + " cart"}
                       productId={product.id}
                       prodQuantity={product.quantity}
                       productName={product.name}
                       productImage={product.image}
-                      productDesc={product.desc ?? ''}
+                      productDesc={product.desc ?? ""}
                       productPrice={product.price}
                       productDiscount={product.discount}
                     />
@@ -36,7 +36,7 @@ const CartPage = () => {
                 );
               })}
             </div>
-            <div className="p-4 w-1/3 bg-white shadow-md">
+            <div className="w-1/3 p-4 bg-white shadow-md">
               {/*
             <div className="flex items-center justify-between">
               <div>
@@ -78,7 +78,7 @@ const CartPage = () => {
                   Checkout
                 </button>
                 <button
-                  onClick={() => navigate('/')}
+                  onClick={() => navigate("/")}
                   className="bg-gray-200 text-gray-700 px-4 py-2 rounded ml-4"
                 >
                   BACK TO SHOP

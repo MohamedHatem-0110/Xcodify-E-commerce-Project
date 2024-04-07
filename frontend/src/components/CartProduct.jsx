@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeFromCart, updateQuantity } from '../redux/actions';
-import { toast } from 'react-toastify';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeFromCart, updateQuantity } from "../redux/actions";
+import { toast } from "react-toastify";
+import { getImage } from "../functions/productFunctions";
 const CartProduct = ({
   productId,
   productName,
@@ -28,8 +29,8 @@ const CartProduct = ({
   return (
     <div className="w-full py-1 flex gap-2">
       <img
-        src={productImage}
-        alt={productName + ' image'}
+        src={getImage(productImage)}
+        alt={productName + " image"}
         className="w-20 h-20 object-cover rounded-sm"
       />
       <div className="flex justify-between w-full px-2">
@@ -64,7 +65,7 @@ const CartProduct = ({
           </div>
           <button
             onClick={() => {
-              toast.success('Successfuly removed from cart!');
+              toast.success("Successfuly removed from cart!");
               dispatch(removeFromCart(productId));
             }}
             className="bg-red-500 p-2 rounded-sm flex items-center justify-center hover:bg-red-600 transition-colors duration-200"
