@@ -32,7 +32,11 @@ function Breadcrumb() {
             <React.Fragment key={index}>
               {path !== "/" &&
                 (index !== mergedBreadcrumbs.length - 1 ? (
-                  <Link to={`/${pathIncrement}`} className="uppercase">
+                  <Link
+                    id={pathIncrement}
+                    to={`/${pathIncrement}`}
+                    className="uppercase"
+                  >
                     {path}
                   </Link>
                 ) : (

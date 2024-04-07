@@ -17,7 +17,7 @@ const ProductCard = ({
         <img
           src={"data:image/webp;base64," + productImage.dataString}
           alt={productName}
-          className="object-fit w-full h-full group-hover:brightness-50 transition-brightness duration-300"
+          className="object-contain w-full h-full group-hover:brightness-50 transition-brightness duration-300"
         />
         <button className="absolute inset-16 flex items-center justify-center bg-blue-300 hover:bg-blue-400 transition-opacity duration-300 text-white font-bold text-lg opacity-0 group-hover:opacity-100">
           Add to cart

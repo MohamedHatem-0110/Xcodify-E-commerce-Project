@@ -25,13 +25,13 @@ const Carousel = ({ images }) => {
   }, [index]); // Trigger effect when index changes
 
   return (
-    <div className=" mx-auto relative w-full">
+    <div className="relative">
       <div className="overflow-hidden">
         <div className="flex h-full">
           {images.map((image, idx) => (
             <div
               key={idx}
-              className="w-full flex-none bg-white h-full"
+              className="w-full flex-none bg-white carousel"
               style={{
                 transform: `translateX(-${index * 100}%)`,
                 transition: "transform 1s ease",

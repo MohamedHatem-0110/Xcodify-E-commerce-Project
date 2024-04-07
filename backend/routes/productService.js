@@ -81,8 +81,11 @@ productRouter.delete("/", async (req, res) => {
 productRouter.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await productModel.findByIdAndUpdate({ _id: id }, { ...req.body });
-    res.status(200).send("Product Updated");
+    const product = await productModel.findByIdAndUpdate(
+      { _id: id },
+      { ...req.body }
+    );
+    res.status(200).send(product);
   } catch (error) {
     res.status(500).send("Failed to update product");
   }

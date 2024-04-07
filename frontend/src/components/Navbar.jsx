@@ -44,6 +44,11 @@ const Navbar = () => {
     }
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchWord && navigate("/products/search/" + searchWord);
+  };
+
   return (
     <>
       <nav className="bg-gray-800 py-2 px-10 w-full z-10 fixed top-0">
@@ -57,7 +62,10 @@ const Navbar = () => {
           </div>
 
           {/* Search bar */}
-          <div className="flex justify-center w-full">
+          <form
+            className="flex justify-center w-full"
+            onSubmit={(e) => handleSubmit(e)}
+          >
             <input
               type="text"
               placeholder="Search..."
@@ -72,9 +80,6 @@ const Navbar = () => {
                 strokeWidth="2"
                 stroke="currentColor"
                 className="w-6 h-6"
-                onClick={() =>
-                  searchWord && navigate("/products/search/" + searchWord)
-                }
               >
                 <path
                   strokeLinecap="round"
@@ -83,7 +88,7 @@ const Navbar = () => {
                 />
               </svg>
             </button>
-          </div>
+          </form>
 
           {/* User and Cart icons */}
           <div className="flex items-center space-x-4 text-white">
