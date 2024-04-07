@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 const TextInput = ({
   name,
@@ -9,14 +9,14 @@ const TextInput = ({
   password,
 }) => {
   let classNames =
-    "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700";
+    'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700';
 
   if (isFieldEmpty) {
     classNames =
-      "w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:border-red-700";
+      'w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:border-red-700';
   } else {
     classNames =
-      "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700";
+      'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-gray-700';
   }
 
   return (
@@ -25,7 +25,7 @@ const TextInput = ({
         {label}
       </label>
       <input
-        type={password ? "password" : "text"}
+        type={password ? 'password' : 'text'}
         id={name}
         name={name}
         value={value}
@@ -33,7 +33,7 @@ const TextInput = ({
         onChange={onChange}
       />
       {isFieldEmpty && (
-        <p class="text-red-500 text-xs italic">Please Fill in this Field</p>
+        <p className="text-red-500 text-xs italic">Please Fill in this Field</p>
       )}
     </div>
   );

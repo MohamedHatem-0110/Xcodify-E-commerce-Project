@@ -61,6 +61,7 @@ productRouter.get("/:id", async (req, res) => {
   try {
     const productId = new Types.ObjectId(req.params.id);
     const product = await productModel.findById(productId);
+    if (!product) return res.status(404).send("Product Not Found");
     // Send the product data including the image data
     res.status(200).send(product);
   } catch (error) {

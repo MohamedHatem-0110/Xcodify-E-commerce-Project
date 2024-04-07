@@ -4,7 +4,11 @@ import { useBreadcrumb } from '../providers/breadcrumbProvider';
 import ProductCard from '../components/ProductCard';
 import axios from 'axios';
 import PriceTag from '../components/PriceTag';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/actions';
+import { toast } from 'react-toastify';
 const ProductPage = () => {
+  const dispatch = useDispatch();
   const { updateBreadcrumbs, clearBreadcrumbs } = useBreadcrumb();
   const navigate = useNavigate();
   const { productId } = useParams();
@@ -15,11 +19,6 @@ const ProductPage = () => {
 
   const handleSizeChange = (event) => {
     setSize(event.target.value);
-  };
-
-  const handleQuantityChange = (event) => {
-    const newQuantity = parseInt(event.target.value);
-    setQuantity(newQuantity);
   };
 
   const increaseQuantity = () => {
@@ -79,8 +78,8 @@ const ProductPage = () => {
               <div className="flex items-center gap-2 my-2 ">
                 <i className="fas fa-star text-xs text-yellow-400"></i>
                 <span className="font-semibold ">4.6</span>·
-                <i class="fa-solid fa-basket-shopping text-xs"></i>
-                {`21`} ·<i class="fa-solid fa-box-open"></i>
+                <i className="fa-solid fa-basket-shopping text-xs"></i>
+                {`21`} ·<i className="fa-solid fa-box-open"></i>
                 {`21 orders`} ·
                 <span className="italic font-medium text-green-400">
                   in-stock
@@ -116,7 +115,7 @@ const ProductPage = () => {
                 <input
                   type="number"
                   value={quantity}
-                  onChange={handleQuantityChange}
+                  readOnly
                   className="border-gray-600 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm py-1 px-2 w-10 mr-4"
                 />
                 <button
@@ -127,11 +126,25 @@ const ProductPage = () => {
                 </button>
               </div>
               <div className="flex items-center mt-6">
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-                  Buy now
-                </button>
-                <button className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded ml-4">
-                  Add to cart
+                <button
+                  onClick={() => {
+                    toast.success('Successfully Added to Cart!');
+                    dispatch(
+                      addToCart({
+                        id: productId,
+                        quantity: quantity,
+                        name: product.name,
+                        image:
+                          'data:image/webp;base64,' + product.image.dataString,
+                        desc: product.desc ?? '',
+                        price: product.price ?? 1000,
+                        discount: product.discount ?? 0,
+                      })
+                    );
+                  }}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Add To Cart
                 </button>
               </div>
             </div>
