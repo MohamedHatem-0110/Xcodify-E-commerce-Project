@@ -71,6 +71,7 @@ const LoginPage = () => {
             toast.success("Login Successful!");
             console.log("Login Successful!");
             dispatch(login(response.data));
+            localStorage.setItem("user", JSON.stringify(response.data));
             navigate("/");
           }
         })

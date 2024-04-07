@@ -109,7 +109,6 @@ export default function (state, action) {
   const newState = rootReducer(state, action);
   const { cart } = newState;
   const { totalPrice, totalDiscount } = calculateTotals(cart); // Remove the extra .cart
-  console.log(totalPrice);
   return {
     ...newState,
     cart: {

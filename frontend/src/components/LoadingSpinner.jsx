@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const LoadingSpinner = () => {
   return (
@@ -19,7 +19,6 @@ const LoadingSpinner = () => {
           fill="currentFill"
         />
       </svg>
-      <span className="font-bold text-xl">Loading</span>
     </div>
   );
 };

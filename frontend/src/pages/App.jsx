@@ -1,4 +1,5 @@
 import React from "react";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -13,8 +14,10 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductsPage from "./ProductsPage";
 import CartPage from "./CartPage";
+import CheckoutPage from "./CheckoutPage";
 
 axios.defaults.baseURL = "http://localhost:3000";
+
 const App = () => {
   return (
     <Router>
@@ -31,6 +34,7 @@ const App = () => {
             <Route path="/products/:productId" element={<ProductPage />} />
             <Route path="/products/" element={<ProductsPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Routes>
         </div>
         <Footer />
