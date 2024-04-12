@@ -17,6 +17,12 @@ const MainApp = express();
   mongoose.connect(process.env.DATABASE_HOST);
 })();
 
+// Route to handle the request for the front-end URL
+MainApp.get("/getFrontEndUrl", (req, res) => {
+  const frontEndUrl = req.headers.referer; // Extract the front-end URL from the request headers
+  res.json({ frontEndUrl });
+});
+
 mongoose.connection.once("open", () => {
   console.log("[DATABASE] Successfully connected!");
   MainApp.listen(process.env.EXPRESS_PORT, () =>

@@ -37,10 +37,9 @@ const Navbar = () => {
   }, [user]); // Trigger effect when user state changes
 
   const handleClickOutside = (event) => {
-    console.log("here1");
     if (menuRef.current && !menuRef.current.contains(event.target)) {
       // Click occurred outside of the menu, so hide the menu
-      console.log("here");
+
       setIsMenuOpen(false);
     }
   };
@@ -158,6 +157,7 @@ const Navbar = () => {
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
                       setIsMenuOpen(false);
+                      navigate("/orders");
                     }}
                   >
                     View Orders

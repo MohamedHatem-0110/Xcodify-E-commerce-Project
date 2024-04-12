@@ -76,6 +76,13 @@ function cartReducer(
         ...state,
         cart: action.payload,
       };
+    case "REMOVE_ALL_FROM_CART":
+      return {
+        ...state,
+        cart: [],
+        totalPrice: 0,
+        totalDiscount: 0,
+      };
     default:
       return state;
   }

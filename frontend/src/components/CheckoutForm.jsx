@@ -5,13 +5,24 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
 
-export default function CheckoutForm() {
+import { toast } from "react-toastify";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import { removeAllFromCart } from "../redux/actions";
+
+const CheckoutForm = ({ items, total_price }) => {
   const stripe = useStripe();
   const elements = useElements();
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { user } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!stripe) {
@@ -52,21 +63,36 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(true);
-
+    // axios.get("/getFrontEndUrl",)
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: axios.defaults.baseURL,
-      },
+      confirmParams: {},
+      redirect: "if_required",
     });
 
-    if (
-      error &&
-      (error.type === "card_error" || error.type === "validation_error")
-    ) {
-      setMessage(error.message);
+    if (error) {
+      if (error.type === "card_error" || error.type === "validation_error") {
+        setMessage(error.message);
+      } else {
+        setMessage("An unexpected error occurred: " + error.message);
+      }
     } else {
-      setMessage("An unexpected error occurred.");
+      // Execute code on success
+
+      const user_id = user._id;
+      const modifiedItems = items.map((item) => {
+        const { image, desc, ...rest } = item;
+        return rest;
+      });
+
+      axios
+        .post("/api/orders", { user_id, items: modifiedItems, total_price })
+        .then((data) => {
+          console.log(data);
+          dispatch(removeAllFromCart());
+        });
+
+      toast.success("Payment Successful!");
     }
 
     setIsLoading(false);
@@ -106,9 +132,8 @@ export default function CheckoutForm() {
           id="submit"
           className="bg-blue-500 text-white font-bold py-2 px-4 rounded w-full"
         >
-          {isLoading ? <div className="spinner"></div> : "Pay Now"}
+          {isLoading ? <LoadingSpinner /> : "Pay Now"}
         </button>
-        {/* Show any error or success messages */}
         {message && (
           <div id="payment-message" className="text-red-500 mt-2">
             {message}
@@ -117,4 +142,6 @@ export default function CheckoutForm() {
       </div>
     </form>
   );
-}
+};
+
+export default CheckoutForm;

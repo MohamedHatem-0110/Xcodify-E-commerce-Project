@@ -6,6 +6,8 @@ import CheckoutForm from "../components/CheckoutForm";
 
 import axios from "axios";
 
+import { useSelector } from "react-redux";
+
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
@@ -15,17 +17,32 @@ const stripePromise = loadStripe(
 
 export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState("");
+  const { cart, totalPrice, totalDiscount } = useSelector(
+    (state) => state.cart
+  );
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
+
+    const itemNames = cart.map((item) => ({
+      id: item.id,
+      name: item.name,
+      quantity: item.quantity,
+      price: item.price,
+    }));
     axios
       .post("/api/orders/create-payment-intent", {
-        method: "POST",
+        // Move headers outside the data object
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+        // Pass items and totalPrice directly as data
+        items: itemNames,
+        totalPrice: totalPrice,
       })
-      .then((data) => {
-        setClientSecret(data.data.clientSecret);
+      .then((response) => {
+        // Access the clientSecret from the response data
+        const { clientSecret } = response.data;
+        // Assuming setClientSecret is a state updater function
+        setClientSecret(clientSecret);
       });
   }, []);
 
@@ -41,7 +58,7 @@ export default function CheckoutPage() {
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm items={cart} total_price={totalPrice} />
         </Elements>
       )}
     </div>

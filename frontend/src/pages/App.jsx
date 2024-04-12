@@ -15,6 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ProductsPage from "./ProductsPage";
 import CartPage from "./CartPage";
 import CheckoutPage from "./CheckoutPage";
+import OrderPage from "./OrderPage";
 
 axios.defaults.baseURL = "http://localhost:3000";
 
@@ -24,7 +25,7 @@ const App = () => {
       <BreadcrumbProvider>
         <Navbar />
 
-        <div className="mx-10">
+        <div className="mx-10 my-10">
           <Breadcrumb />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -35,6 +36,7 @@ const App = () => {
             <Route path="/products/" element={<ProductsPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrderPage />} />
           </Routes>
         </div>
         <Footer />

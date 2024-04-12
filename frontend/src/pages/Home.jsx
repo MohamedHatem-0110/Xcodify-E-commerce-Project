@@ -4,6 +4,8 @@ import { fetchProducts } from "../functions/productFunctions";
 import Carousel from "../components/Carousel";
 import Section from "../components/Section";
 
+import ProductCard from "../components/ProductCard";
+
 const Home = () => {
   const [products, setProducts] = useState(null);
   let numberOfProducts = 8;
@@ -15,13 +17,14 @@ const Home = () => {
   ];
   useEffect(() => {
     fetchProducts(setProducts);
+    console.log(products);
   }, []);
 
   return (
     <div>
       <div className="mt-20 flex-col">
         {images && <Carousel images={images} />}
-        <Section title={"Popular"} />
+        {products && products.map((product) => <></>)}
         <Section title={"Category"} />
       </div>
     </div>
