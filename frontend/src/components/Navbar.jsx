@@ -51,8 +51,8 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-gray-800 py-2 px-10 w-full z-10 fixed top-0">
-        <div className="flex justify-between items-center sm:gap-20">
+      <nav className="bg-gray-800 py-2 px-2 sm:px-10 w-full z-10 fixed top-0">
+        <div className="flex justify-between items-center gap-3 sm:gap-10">
           {/* Logo */}
           <div
             className="text-white text-3xl font-bold logo italic cursor-pointer"
@@ -69,10 +69,10 @@ const Navbar = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full hidden sm:block"
+              className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full"
               onChange={(e) => setSearchWord(e.target.value)}
             />
-            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg sm:rounded-l-none">
+            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg rounded-l-none">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -113,7 +113,7 @@ const Navbar = () => {
                   />
                 </svg>
                 {user !== null && (
-                  <div className="w-full whitespace-nowrap">
+                  <div className="w-full whitespace-nowrap hidden sm:block">
                     Hi, {user.firstName}
                   </div>
                 )}
@@ -175,7 +175,7 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-            <div onClick={() => navigate("/cart")}>
+            <div className="cursor-pointer" onClick={() => navigate("/cart")}>
               <CartIcon />
             </div>
           </div>

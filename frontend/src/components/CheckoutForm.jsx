@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { removeAllFromCart } from "../redux/actions";
 
+import { useNavigate } from "react-router-dom";
+
 const CheckoutForm = ({ items, total_price }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -23,6 +25,8 @@ const CheckoutForm = ({ items, total_price }) => {
   const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!stripe) {
@@ -88,8 +92,9 @@ const CheckoutForm = ({ items, total_price }) => {
       axios
         .post("/api/orders", { user_id, items: modifiedItems, total_price })
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           dispatch(removeAllFromCart());
+          navigate("/orders");
         });
 
       toast.success("Payment Successful!");

@@ -25,7 +25,7 @@ const App = () => {
       <BreadcrumbProvider>
         <Navbar />
 
-        <div className="mx-10 my-10">
+        <div className="mx-2 sm:mx-10 my-10">
           <Breadcrumb />
           <Routes>
             <Route path="/" element={<Home />} />
