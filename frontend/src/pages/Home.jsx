@@ -5,10 +5,11 @@ import Carousel from "../components/Carousel";
 import Section from "../components/Section";
 
 import ProductCard from "../components/ProductCard";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Home = () => {
   const [products, setProducts] = useState(null);
-  let numberOfProducts = 8;
+  let number = 10;
 
   const images = [
     "https://random.imagecdn.app/1080/300",
@@ -16,9 +17,9 @@ const Home = () => {
     "https://random.imagecdn.app/1080/300",
   ];
   useEffect(() => {
-    fetchProducts(setProducts);
+    fetchProducts(setProducts, number);
     console.log(products);
-  }, []);
+  }, [number]);
 
   return (
     <div>
@@ -27,21 +28,27 @@ const Home = () => {
 
         <div className="p-4 rounded-lg bg-white">
           <h1 className="font-bold text-3xl mb-4">Products</h1>
-          <div className="flex flex-wrap gap-5 justify-center sm:justify-start">
-            {products &&
-              products.map((product) => (
-                <ProductCard
-                  productName={product.name}
-                  productImage={product.image}
-                  price={product.price}
-                  discountPrice={product.discountPrice}
-                  productId={product._id}
-                  productDesc={product.desc}
-                />
-              ))}
+          <div className="flex flex-wrap gap-5 justify-center items-center">
+            {products ? (
+              products
+                .slice(0, 10)
+                .map((product) => (
+                  <ProductCard
+                    productName={product.name}
+                    productImage={product.image}
+                    price={product.price}
+                    discountPrice={product.discountPrice}
+                    productId={product._id}
+                    productDesc={product.desc}
+                  />
+                ))
+            ) : (
+              <div className="justify-self-center">
+                <LoadingSpinner />
+              </div>
+            )}
           </div>
         </div>
-        <Section title={"Category"} />
       </div>
     </div>
   );

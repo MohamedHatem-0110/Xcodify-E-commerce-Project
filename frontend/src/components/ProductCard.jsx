@@ -17,12 +17,12 @@ const ProductCard = ({
   return (
     <div className="w-64 h-80 border border-gray-300 rounded-lg overflow-hidden">
       <div className="relative h-40 bg-gray-100 group">
-        {console.log(getImage(productImage))}
         <img
           src={getImage(productImage)}
           alt={productName}
           className="object-contain w-full h-full group-hover:brightness-50 transition-brightness duration-300"
         />
+        {console.log(productImage)}
         <button
           onClick={() => {
             dispatch(

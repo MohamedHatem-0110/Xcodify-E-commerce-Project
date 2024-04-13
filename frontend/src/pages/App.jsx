@@ -40,7 +40,7 @@ const App = () => {
           </Routes>
         </div>
         <Footer />
-        <ToastContainer theme="colored" pauseOnHover={false} autoClose={3000} />
+        <ToastContainer theme="colored" pauseOnHover={false} autoClose={1500} />
       </BreadcrumbProvider>
     </Router>
   );

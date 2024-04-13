@@ -149,14 +149,6 @@ const Navbar = () => {
                     className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
                     onClick={() => {
                       setIsMenuOpen(false);
-                    }}
-                  >
-                    View Profile
-                  </button>
-                  <button
-                    className="block w-full py-2 px-4 text-center hover:bg-gray-700 rounded-md"
-                    onClick={() => {
-                      setIsMenuOpen(false);
                       navigate("/orders");
                     }}
                   >

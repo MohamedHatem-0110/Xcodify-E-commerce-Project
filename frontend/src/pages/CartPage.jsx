@@ -7,6 +7,8 @@ const CartPage = () => {
   const { cart, totalPrice, totalDiscount } = useSelector(
     (state) => state.cart
   );
+
+  const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   return (
     <>
@@ -16,11 +18,12 @@ const CartPage = () => {
         {cart.length == 0 ? (
           <h1 className="text-xl">Nothing to see here!</h1>
         ) : (
-          <div className="flex gap-2 justify-between">
+          <div className="flex flex-col md:flex-row gap-2 justify-between">
             <div className="flex flex-col gap-2 border border-gray-400 rounded-sm p-2">
               {cart.map((product) => {
                 return (
-                  <>
+                  <div key={product.id}>
+                    {/* {console.log(product)} */}
                     <CartProduct
                       key={product.id + " cart"}
                       productId={product.id}
@@ -32,12 +35,13 @@ const CartPage = () => {
                       productDiscount={product.discount}
                     />
                     {cart.length > 1 && <hr />}
-                  </>
+                  </div>
                 );
               })}
             </div>
-            <div className="w-1/3 p-4 bg-white shadow-md">
-              {/*
+            {user && (
+              <div className="md:w-1/3 p-4 bg-white shadow-md">
+                {/*
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-600">Have coupon?</p>
@@ -55,41 +59,42 @@ const CartPage = () => {
             </div>
               */}
 
-              <div className="mt-4">
-                <div className="flex justify-between">
-                  <p>Total price:</p>
-                  <p className="font-semibold">
-                    {totalPrice + totalDiscount} EGP
-                  </p>
+                <div className="mt-4">
+                  <div className="flex justify-between">
+                    <p>Total price:</p>
+                    <p className="font-semibold">
+                      {totalPrice + totalDiscount} EGP
+                    </p>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <p>Discount:</p>
+                    <p className="font-semibold text-red-500">
+                      -{totalDiscount} EGP
+                    </p>
+                  </div>
+                  <div className="flex justify-between mt-4 border-t pt-4">
+                    <p>Total price:</p>
+                    <p className="font-semibold">{totalPrice} EGP</p>
+                  </div>
                 </div>
-                <div className="flex justify-between mt-2">
-                  <p>Discount:</p>
-                  <p className="font-semibold text-red-500">
-                    -{totalDiscount} EGP
-                  </p>
-                </div>
-                <div className="flex justify-between mt-4 border-t pt-4">
-                  <p>Total price:</p>
-                  <p className="font-semibold">{totalPrice} EGP</p>
+                <div className="mt-4">
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
+                    onClick={() => {
+                      navigate("/checkout");
+                    }}
+                  >
+                    Checkout
+                  </button>
+                  <button
+                    onClick={() => navigate("/")}
+                    className="bg-gray-200 text-gray-700 px-4 py-2 rounded ml-4"
+                  >
+                    BACK TO SHOP
+                  </button>
                 </div>
               </div>
-              <div className="mt-4">
-                <button
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
-                  onClick={() => {
-                    navigate("/checkout");
-                  }}
-                >
-                  Checkout
-                </button>
-                <button
-                  onClick={() => navigate("/")}
-                  className="bg-gray-200 text-gray-700 px-4 py-2 rounded ml-4"
-                >
-                  BACK TO SHOP
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         )}
 

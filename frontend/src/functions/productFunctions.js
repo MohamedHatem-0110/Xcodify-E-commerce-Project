@@ -1,17 +1,24 @@
 import axios from "axios";
 
-const fetchProducts = async (setProducts, setError) => {
+const fetchProducts = async (setProducts, number) => {
   try {
-    const response = await axios.get("/api/products");
-    setProducts(response.data);
+    if (number) {
+      const response = await axios.post("/api/products/getProductsByNumber", {
+        number,
+      });
+
+      setProducts(response.data);
+    } else {
+      const response = await axios.post("/api/products");
+      setProducts(response.data);
+    }
+
     console.log(response.data);
-  } catch (error) {
-    setError(error.message);
-  }
+  } catch (error) {}
 };
 
 const getImage = (productImage) => {
-  return "data:image/webp;base64," + productImage.dataString;
+  return productImage.dataString;
 };
 
 export { fetchProducts, getImage };

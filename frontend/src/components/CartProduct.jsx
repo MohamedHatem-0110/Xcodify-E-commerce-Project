@@ -28,6 +28,7 @@ const CartProduct = ({
   };
   return (
     <div className="w-full py-1 flex gap-2">
+      {/* {console.log(productImage)} */}
       <img
         src={getImage(productImage)}
         alt={productName + " image"}

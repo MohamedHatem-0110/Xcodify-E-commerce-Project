@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useBreadcrumb } from '../providers/breadcrumbProvider';
-import ProductCard from '../components/ProductCard';
-import axios from 'axios';
-import PriceTag from '../components/PriceTag';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '../redux/actions';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useBreadcrumb } from "../providers/breadcrumbProvider";
+import ProductCard from "../components/ProductCard";
+import axios from "axios";
+import PriceTag from "../components/PriceTag";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/actions";
+import { toast } from "react-toastify";
 const ProductPage = () => {
   const dispatch = useDispatch();
   const { updateBreadcrumbs, clearBreadcrumbs } = useBreadcrumb();
@@ -14,7 +14,7 @@ const ProductPage = () => {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
 
-  const [size, setSize] = useState(0 || 'Small');
+  const [size, setSize] = useState(0 || "Small");
   const [quantity, setQuantity] = useState(1);
 
   const handleSizeChange = (event) => {
@@ -38,20 +38,20 @@ const ProductPage = () => {
       try {
         const response = await axios.get(`/api/products/${productId}`);
         console.log(response);
-        if (response.statusText !== 'OK') {
+        if (response.statusText !== "OK") {
           // If product not found or any other error occurs
-          throw new Error('Product not found');
+          throw new Error("Product not found");
         }
         setProduct(response.data);
         updateBreadcrumbs(response.data.name);
       } catch (error) {
-        console.error('Error fetching product:', error);
-        navigate('/');
+        console.error("Error fetching product:", error);
+        navigate("/");
       }
     };
 
     if (!productId) {
-      navigate('/');
+      navigate("/");
     } else {
       getProductDetails();
     }
@@ -68,7 +68,7 @@ const ProductPage = () => {
           <div className="flex gap-2 w-100%">
             <div className="w-1/2 flex justify-center items-center border border-gray-300 rounded-sm p-2">
               <img
-                src={'data:image/webp;base64,' + product.image.dataString}
+                src={product.image.dataString}
                 className=" md:w-1/2 w-full h-64"
                 alt={product.name}
               />
@@ -128,15 +128,14 @@ const ProductPage = () => {
               <div className="flex items-center mt-6">
                 <button
                   onClick={() => {
-                    toast.success('Successfully Added to Cart!');
+                    toast.success("Successfully Added to Cart!");
                     dispatch(
                       addToCart({
                         id: productId,
                         quantity: quantity,
                         name: product.name,
-                        image:
-                          'data:image/webp;base64,' + product.image.dataString,
-                        desc: product.desc ?? '',
+                        image: product.image,
+                        desc: product.desc ?? "",
                         price: product.price ?? 1000,
                         discount: product.discount ?? 0,
                       })
@@ -161,20 +160,20 @@ const ProductPage = () => {
         }
         <div className="flex gap-2 w-full">
           <ProductCard
-            key={'pro1'}
+            key={"pro1"}
             productName="Product Name"
             productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
             price={123}
           />
           <ProductCard
-            key={'pro2'}
+            key={"pro2"}
             productName="Product Name"
             productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
             price={123}
             discountPrice={100}
           />
           <ProductCard
-            key={'pro13'}
+            key={"pro13"}
             productName="Product Name"
             productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
             price={1234}

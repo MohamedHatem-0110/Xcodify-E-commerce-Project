@@ -110,5 +110,16 @@ productRouter.get("/search/:word", async (req, res) => {
   }
 });
 
+productRouter.post("/getProductsByNumber", async (req, res) => {
+  try {
+    const products = await productModel.aggregate([
+      { $sample: { size: req.body.number } },
+    ]);
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(500).send("Failed to get products");
+  }
+});
+
 console.log("[ROUTER] Loaded api/products route");
 module.exports = productRouter;
