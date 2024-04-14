@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useBreadcrumb } from "../providers/breadcrumbProvider";
-import ProductCard from "../components/ProductCard";
-import axios from "axios";
-import PriceTag from "../components/PriceTag";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../redux/actions";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useBreadcrumb } from '../providers/breadcrumbProvider';
+import ProductCard from '../components/ProductCard';
+import axios from 'axios';
+import PriceTag from '../components/PriceTag';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/actions';
+import { toast } from 'react-toastify';
 const ProductPage = () => {
   const dispatch = useDispatch();
   const { updateBreadcrumbs, clearBreadcrumbs } = useBreadcrumb();
   const navigate = useNavigate();
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const [seeAlsoProducts, setSeeAlsoProducts] = useState(null);
 
-  const [size, setSize] = useState(0 || "Small");
+  const [size, setSize] = useState(0 || 'Small');
   const [quantity, setQuantity] = useState(1);
 
   const handleSizeChange = (event) => {
@@ -37,21 +38,34 @@ const ProductPage = () => {
     const getProductDetails = async () => {
       try {
         const response = await axios.get(`/api/products/${productId}`);
-        console.log(response);
-        if (response.statusText !== "OK") {
+        // console.log(response);
+        if (response.status !== 200) {
           // If product not found or any other error occurs
-          throw new Error("Product not found");
+          throw new Error('Product not found');
         }
         setProduct(response.data);
         updateBreadcrumbs(response.data.name);
+        const seeAlsoResponse = await axios.get(
+          `/api/products/productsByCategory/${response.data.category_id}`
+        );
+        if (seeAlsoResponse.status == 200) {
+          let availableProducts = seeAlsoResponse.data;
+          // If product not found or any other error occurs
+          if (availableProducts.length > 0) {
+            availableProducts = availableProducts.filter(
+              (prod) => prod._id != productId
+            );
+          }
+          setSeeAlsoProducts(availableProducts);
+        }
       } catch (error) {
-        console.error("Error fetching product:", error);
-        navigate("/");
+        console.error('Error fetching product:', error);
+        navigate('/');
       }
     };
 
     if (!productId) {
-      navigate("/");
+      navigate('/');
     } else {
       getProductDetails();
     }
@@ -60,9 +74,6 @@ const ProductPage = () => {
   }, [productId]);
   return (
     <div className="w-100% py-4 px-2">
-      {
-        // TODO: Complete the product's details from API
-      }
       {product && (
         <>
           <div className="flex gap-2 w-100%">
@@ -77,21 +88,24 @@ const ProductPage = () => {
               <div className="text-2xl font-bold">{product.name}</div>
               <div className="flex items-center gap-2 my-2 ">
                 <i className="fas fa-star text-xs text-yellow-400"></i>
-                <span className="font-semibold ">4.6</span>·
+                <span className="font-semibold ">{product.rating}</span>·
                 <i className="fa-solid fa-basket-shopping text-xs"></i>
-                {`21`} ·<i className="fa-solid fa-box-open"></i>
-                {`21 orders`} ·
+                {product.rating_count} ·<i className="fa-solid fa-box-open"></i>
+                {product.rating_count + ' orders'} ·
                 <span className="italic font-medium text-green-400">
                   in-stock
                 </span>
               </div>
-              <PriceTag price={123} discount={100} />
-              <div className="text-gray-600 mb-6">DESC</div>
-              <div className="flex items-center mb-2">
+              <PriceTag price={product.price} discount={product.discount} />
+              <div className="text-gray-600 mb-6">{product.desc}</div>
+              {/*
+                 <div className="flex items-center mb-2">
                 <div className="text-sm font-semibold">Type:</div>
                 <div className="text-xs text-gray-500 ml-2">123</div>
               </div>
-              <div className="text-sm font-semibold">aaaaa</div>
+              <div className="text-sm font-semibold"></div>
+                */}
+
               <hr className="mt-4" />
               <div className="flex items-center mt-4 mb-6">
                 <div className="text-sm font-semibold mr-2">Size:</div>
@@ -128,14 +142,14 @@ const ProductPage = () => {
               <div className="flex items-center mt-6">
                 <button
                   onClick={() => {
-                    toast.success("Successfully Added to Cart!");
+                    toast.success('Successfully Added to Cart!');
                     dispatch(
                       addToCart({
                         id: productId,
                         quantity: quantity,
                         name: product.name,
                         image: product.image,
-                        desc: product.desc ?? "",
+                        desc: product.desc ?? '',
                         price: product.price ?? 1000,
                         discount: product.discount ?? 0,
                       })
@@ -159,25 +173,20 @@ const ProductPage = () => {
           // TODO: Add products based on category of the current object
         }
         <div className="flex gap-2 w-full">
-          <ProductCard
-            key={"pro1"}
-            productName="Product Name"
-            productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
-            price={123}
-          />
-          <ProductCard
-            key={"pro2"}
-            productName="Product Name"
-            productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
-            price={123}
-            discountPrice={100}
-          />
-          <ProductCard
-            key={"pro13"}
-            productName="Product Name"
-            productImage="https://images.unsplash.com/photo-1554629947-334ff61d85dc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&h=1280&q=80"
-            price={1234}
-          />
+          {seeAlsoProducts &&
+            seeAlsoProducts.length > 0 &&
+            seeAlsoProducts.map((product) => {
+              return (
+                <ProductCard
+                  key={product._id}
+                  productId={product._id}
+                  productName={product.name}
+                  productImage={product.image}
+                  price={product.price}
+                  discountPrice={product.discount}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

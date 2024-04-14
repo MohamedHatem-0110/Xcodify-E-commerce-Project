@@ -4,6 +4,7 @@
 */.pnp
 */.pnp.js
 .yarn/*
+*/.vercel
 
 # testing
 */coverage

@@ -1,19 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-const fetchProducts = async (setProducts, number) => {
+const fetchProducts = async (setProducts, number = 10) => {
   try {
-    if (number) {
-      const response = await axios.post("/api/products/getProductsByNumber", {
-        number,
-      });
+    const response = await axios.post('/api/products/getProductsByNumber', {
+      number,
+    });
 
-      setProducts(response.data);
-    } else {
-      const response = await axios.post("/api/products");
-      setProducts(response.data);
-    }
-
-    console.log(response.data);
+    setProducts(response.data);
+    // console.log(response.data);
   } catch (error) {}
 };
 

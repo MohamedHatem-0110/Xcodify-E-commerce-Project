@@ -1,15 +1,31 @@
-import React, { useEffect, useState } from "react";
-import ProductCard from "../components/ProductCard";
-import { useSelector } from "react-redux";
-import CartProduct from "../components/CartProduct";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import ProductCard from '../components/ProductCard';
+import { useSelector } from 'react-redux';
+import CartProduct from '../components/CartProduct';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const CartPage = () => {
   const { cart, totalPrice, totalDiscount } = useSelector(
     (state) => state.cart
   );
-
+  const [recommendedProducts, setRecommendedProducts] = useState(null);
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  useEffect(() => {
+    const getRecommendedProducts = async () => {
+      const recommendedProductsResponse = await axios.post(
+        '/api/products/getProductsByNumber',
+        {
+          number: 6,
+        }
+      );
+      if (recommendedProductsResponse.status == 200) {
+        setRecommendedProducts(recommendedProductsResponse.data);
+        console.log(recommendedProductsResponse.data);
+      }
+    };
+    getRecommendedProducts();
+  }, []);
   return (
     <>
       <div className="p-2">
@@ -25,12 +41,12 @@ const CartPage = () => {
                   <div key={product.id}>
                     {/* {console.log(product)} */}
                     <CartProduct
-                      key={product.id + " cart"}
+                      key={product.id + ' cart'}
                       productId={product.id}
                       prodQuantity={product.quantity}
                       productName={product.name}
                       productImage={product.image}
-                      productDesc={product.desc ?? ""}
+                      productDesc={product.desc ?? ''}
                       productPrice={product.price}
                       productDiscount={product.discount}
                     />
@@ -81,13 +97,13 @@ const CartPage = () => {
                   <button
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                     onClick={() => {
-                      navigate("/checkout");
+                      navigate('/checkout');
                     }}
                   >
                     Checkout
                   </button>
                   <button
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate('/')}
                     className="bg-gray-200 text-gray-700 px-4 py-2 rounded ml-4"
                   >
                     BACK TO SHOP
@@ -99,9 +115,26 @@ const CartPage = () => {
         )}
 
         <div className="w-full py-2">
-          <h3 className="text-2xl">Recommended</h3>
-          <hr />
-          <div className="flex gap-2 w-full mt-2"></div>
+          {recommendedProducts && recommendedProducts.length > 0 && (
+            <>
+              <h3 className="text-2xl">Recommended</h3>
+              <hr />
+              <div className="flex gap-2 w-full mt-2">
+                {recommendedProducts.map((product) => {
+                  return (
+                    <ProductCard
+                      key={product._id + '_cart_rec'}
+                      productId={product._id}
+                      productName={product.name}
+                      productImage={product.image}
+                      price={product.price}
+                      discountPrice={product.discount}
+                    />
+                  );
+                })}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>

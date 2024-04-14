@@ -1,23 +1,23 @@
-import React from "react";
+import React from 'react';
 
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import ProductPage from "./ProductPage";
-import RegisterPage from "./RegisterPage";
-import Breadcrumb from "../components/Breadcrumb";
-import LoginPage from "./LoginPage";
-import axios from "axios";
-import { BreadcrumbProvider } from "../providers/breadcrumbProvider";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ProductsPage from "./ProductsPage";
-import CartPage from "./CartPage";
-import CheckoutPage from "./CheckoutPage";
-import OrderPage from "./OrderPage";
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Home';
+import ProductPage from './ProductPage';
+import RegisterPage from './RegisterPage';
+import Breadcrumb from '../components/Breadcrumb';
+import LoginPage from './LoginPage';
+import axios from 'axios';
+import { BreadcrumbProvider } from '../providers/breadcrumbProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ProductsPage from './ProductsPage';
+import CartPage from './CartPage';
+import CheckoutPage from './CheckoutPage';
+import OrderPage from './OrderPage';
 
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = 'https://xshop-ecommerce-server.vercel.app';
 
 const App = () => {
   return (

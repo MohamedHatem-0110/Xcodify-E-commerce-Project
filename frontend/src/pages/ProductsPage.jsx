@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import ProductCard from "../components/ProductCard";
-import LoadingSpinner from "../components/LoadingSpinner";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProductsPage = () => {
   const { word } = useParams();
@@ -11,9 +11,9 @@ const ProductsPage = () => {
   const [categories, setCategories] = useState(null);
   const [loading, setLoading] = useState(true); // Track loading state
   const [selectedFilters, setSelectedFilters] = useState({
-    category: "",
-    price1: "",
-    price2: "",
+    category: '',
+    price1: '',
+    price2: '',
   });
 
   useEffect(() => {
@@ -21,17 +21,19 @@ const ProductsPage = () => {
       try {
         const [productsResponse, categoriesResponse] = await Promise.all([
           word
-            ? axios.get("api/products/search/" + word)
-            : axios.get("api/products"),
-          axios.get("/api/categories"),
+            ? axios.get('/api/products/search/' + word)
+            : axios.post('/api/products/getProductsByNumber', {
+                number: 10,
+              }),
+          axios.get('/api/categories/get'),
         ]);
-
+        console.log('Products: ', productsResponse.data);
         setProducts(productsResponse.data);
         setFilteredProducts(productsResponse.data);
         setCategories(categoriesResponse.data);
         setLoading(false); // Set loading to false when all data is fetched
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
         setLoading(false);
       }
     };
@@ -137,7 +139,7 @@ const ProductsPage = () => {
       ) : (
         <div className="bg-white rounded-lg grid gap-8 justify-items-center md:grid-cols-2 xl:grid-cols-3 p-6">
           {filteredProducts &&
-            filteredProducts.map((product) => (
+            filteredProducts.map((product, index) => (
               <ProductCard
                 key={product._id || index} // Use a unique identifier from product object as the key
                 price={product.price}
@@ -146,6 +148,7 @@ const ProductsPage = () => {
                 productImage={product.image}
                 productId={product._id}
                 productDesc={product.desc}
+                isURL
               />
             ))}
         </div>
