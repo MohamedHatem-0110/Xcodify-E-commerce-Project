@@ -72,7 +72,7 @@ const Navbar = () => {
               className="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full"
               onChange={(e) => setSearchWord(e.target.value)}
             />
-            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg rounded-l-none">
+            <button className="bg-gray-700 text-white px-4 py-2 rounded-lg rounded-l-none transition ease-in-out hover:bg-white hover:text-gray-700">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -80,6 +80,7 @@ const Navbar = () => {
                 strokeWidth="2"
                 stroke="currentColor"
                 className="w-6 h-6"
+                
               >
                 <path
                   strokeLinecap="round"
